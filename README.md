@@ -13,7 +13,7 @@
 ```
 > **The cost of such addition has not been updated in performances below.
     See [the PR request I made](https://github.com/MaxHalford/vose/pull/3) for more details.
-    The rest of the README is alsmost the same as the original.**
+    The rest of the README is almost the same as the original.**
 >
 >   *Theo*
 
