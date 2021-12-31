@@ -1,5 +1,22 @@
 # vose
 
+> **The difference with the official version is that `vose.Sampler` object have per instance generators, enabling to have a  per instance seed instead of a global seed. This means that the following test passes on this version but not on the official:**
+```py
+>>> import numpy as np
+>>> import vose
+>>> probs = np.array([0.5, 0.5])
+>>> a = vose.Sampler(probs, seed=0)
+>>> b = vose.Sampler(probs, seed=0)
+>>> for _ in range(10000):
+...     assert a.sample() == b.sample()
+
+```
+> **The cost of such addition has not been updated in performances below.
+    See [the PR request I made](https://github.com/MaxHalford/vose/pull/3) for more details.
+    The rest of the README is alsmost the same as the original.**
+>
+>   *Theo*
+
 This is a Cython implemention of Michael Vose's [Alias method](https://www.wikiwand.com/en/Alias_method). It can be used to perform weighted sampling with replacement of integers in `O(1)` time. It requires a construction phase that runs in `O(n)` time, with `n` being the number of integers with associated weights. As far as I know, it's faster than any other method available in Python. But I would love to be proven wrong!
 
 I wrote this because I had a specific usecase where I needed to repeatidly sample integers with a weight associated to each integer. I stumbled on Keith Schwarz's [*Darts, Dice, and Coins: Sampling from a Discrete Distribution*](https://www.keithschwarz.com/darts-dice-coins/), which is very well written, and decided to use the Alias method. Alas, `numpy` doesn't seem to have it available, and neither does the `random` module from Python's standard library. There is, however, the [`vose_sampler`](https://github.com/asmith26/Vose-Alias-Method) package, but it is written in pure Python and isn't fast enough for my purposes. I therefore decided to write it in Cython and shamelessly adapted Keith Schmarz's [Java implementation](https://www.keithschwarz.com/interesting/code/?dir=alias-method).
