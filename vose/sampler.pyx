@@ -38,8 +38,9 @@ cdef class Sampler:
         else:
             self.generator = minstd_rand(seed)
 
-        self.maxi = self.generator.max()
-
+        self.mini = self.generator.min()
+        self.maxi = self.generator.max() - self.mini
+        
         if copy:
             weights = weights.copy()
 
@@ -112,16 +113,16 @@ cdef class Sampler:
             p: Heads probability.
 
         """
-        return self.generator() < self.maxi * p
+        return (self.generator() - self.mini) < self.maxi * p
 
     cdef int fair_die(self, int n):
-        """Sample a fair n-sided die.
+        """Sample a fair n-sided die [0; n-1].
 
         Parameters:
             n: The number of faces on the die.
 
         """
-        return self.generator() * n / self.maxi
+        return (self.generator() - self.mini) * n / (self.maxi + 1)
 
     cdef int sample_1(self):
 
