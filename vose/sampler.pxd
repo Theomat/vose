@@ -7,6 +7,7 @@ cdef class Sampler:
     cdef int n
     cdef minstd_rand generator
     cdef int maxi
+    cdef int mini
     cdef np.int_t [:] alias
     cdef np.float_t [:] proba
     cdef bint coin_toss(self, float p)
