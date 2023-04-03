@@ -13,11 +13,11 @@ def read(fname):
 
 setup(
     name='vose',
-    version='0.0.2',
+    version='0.0.3',
     author='Max Halford',
     license='MIT',
-    author_email='maxhalford25@gmail.com',
-    description="Cython implementation of Vose's Alias method with per instance seeding.",
+    author_email='theomatricon@gmail.com',
+    description="Cython implementation of Vose's Alias method with per instance seeding forked from Max Halford's version.",
     long_description=read('README.md'),
     long_description_content_type='text/markdown',
     url='https://github.com/Theomat/vose',
