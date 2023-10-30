@@ -143,15 +143,30 @@ cdef class Sampler:
             samples[i] = self.sample_1()
         return samples
 
-    def sample(self, k=1):
-        """Sample a random integer.
+    cdef np.float_t [:] sample_k_from(self, int k, np.float_t [:] values):
+        cdef np.float_t [:] out = np.zeros(k, dtype=float)
+        cdef int i
+        for i in range(k):
+            out[i] = values[self.sample_1()]
+        return out
+
+    def sample(self, k=1, values=None):
+        """Sample a random integer or a value froma given array.
 
         Parameters:
-            k: The number of integers to sample. If `k = 1`, then a single int is returned. In any
+            k: The number of integers to sample. If `k = 1`, then a single int (or float if values is not None) is returned. In any
                 other case, a numpy array is returned.
+            values: The numpy array of values from which to sample from.
 
         """
+        if values is None:
+            if k == 1:
+                return self.sample_1()
+            return np.asarray(self.sample_k(k))
+        else:
+            if k == 1:
+                return values[self.sample_1()]
+            return np.asarray(self.sample_k_from(k, values))
 
-        if k == 1:
-            return self.sample_1()
-        return np.asarray(self.sample_k(k))
+
+

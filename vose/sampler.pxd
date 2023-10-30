@@ -14,3 +14,4 @@ cdef class Sampler:
 
     cdef int sample_1(self)
     cdef np.int_t [:] sample_k(self, int k)
+    cdef np.float_t [:] sample_k_from(self, int k, np.float_t[:] values)

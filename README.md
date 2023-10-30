@@ -17,6 +17,20 @@
 >
 >   *Theo*
 
+Another bonus is the following:
+
+```py
+>>> import numpy as np
+>>> import vose
+>>> probs = np.array([0.5, 0.5])
+>>> li = [0.2, 47, 32]
+>>> values = np.array(li)
+>>> a = vose.Sampler(probs, seed=0)
+>>> for _ in range(1000):
+...     assert a.sample(values=values) in li
+
+```
+
 This is a Cython implemention of Michael Vose's [Alias method](https://www.wikiwand.com/en/Alias_method). It can be used to perform weighted sampling with replacement of integers in `O(1)` time. It requires a construction phase that runs in `O(n)` time, with `n` being the number of integers with associated weights. As far as I know, it's faster than any other method available in Python. But I would love to be proven wrong!
 
 I wrote this because I had a specific usecase where I needed to repeatidly sample integers with a weight associated to each integer. I stumbled on Keith Schwarz's [*Darts, Dice, and Coins: Sampling from a Discrete Distribution*](https://www.keithschwarz.com/darts-dice-coins/), which is very well written, and decided to use the Alias method. Alas, `numpy` doesn't seem to have it available, and neither does the `random` module from Python's standard library. There is, however, the [`vose_sampler`](https://github.com/asmith26/Vose-Alias-Method) package, but it is written in pure Python and isn't fast enough for my purposes. I therefore decided to write it in Cython and shamelessly adapted Keith Schmarz's [Java implementation](https://www.keithschwarz.com/interesting/code/?dir=alias-method).
@@ -26,7 +40,7 @@ I wrote this because I had a specific usecase where I needed to repeatidly sampl
 My feeling is that this package is too small to justify putting it on PyPI. Therefore, you have to install it from GitHub. If ever the scope grows larger I might reconsider this.
 
 ```sh
-pip install git+https://github.com/MaxHalford/vose
+pip install git+https://github.com/Theomat/vose.git
 ```
 
 This will install `cython` as well as `numpy` if you do not already have them installed.
@@ -48,7 +62,7 @@ You can then call the `.sample()` method to sample a random integer in range `[0
 
 ```py
 >>> sampler.sample()
-3
+1
 
 ```
 
@@ -56,7 +70,7 @@ You can set the `k` parameter in order to produce multiple samples.
 
 ```py
 >>> sampler.sample(k=10)
-array([3, 3, 2, 1, 1, 2, 2, 3, 0, 2])
+array([1, 2, 2, 0, 3, 1, 3, 3, 2, 2])   
 
 ```
 

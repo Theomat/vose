@@ -12,28 +12,29 @@ def read(fname):
 
 
 setup(
-    name='vose',
-    version='0.0.3',
-    author='Max Halford',
-    license='MIT',
-    author_email='theomatricon@gmail.com',
+    name="vose",
+    version="0.0.4",
+    author="Max Halford",
+    license="MIT",
+    author_email="theomatricon@gmail.com",
     description="Cython implementation of Vose's Alias method with per instance seeding forked from Max Halford's version.",
-    long_description=read('README.md'),
-    long_description_content_type='text/markdown',
-    url='https://github.com/Theomat/vose',
-    packages=['vose'],
-    install_requires=['numpy'],
-    extras_require={'dev': ['pytest', 'scipy']},
-    python_requires='>=3.6',
+    long_description=read("README.md"),
+    long_description_content_type="text/markdown",
+    url="https://github.com/Theomat/vose",
+    packages=["vose"],
+    install_requires=["numpy"],
+    extras_require={"dev": ["pytest", "scipy"]},
+    python_requires=">=3.6",
     ext_modules=cythonize(
         [
             Extension(
-                '*', ['vose/sampler.pyx'],
+                "*",
+                ["vose/sampler.pyx"],
                 include_dirs=[np.get_include()],
-                define_macros=[('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')]
+                define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
             ),
         ],
-        compiler_directives={'language_level': 2}
+        compiler_directives={"language_level": 2},
     ),
-    package_data={'vose': ['*.pxd']},
+    package_data={"vose": ["*.pxd"]},
 )
