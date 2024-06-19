@@ -102,7 +102,7 @@ cdef vose.Sampler sampler
 sampler = vose.Sampler(weights)
 
 cdef int sample = sampler.sample_1()
-cdef np.int_t [:] samples = sampler.sample_k(10)
+cdef np.int [:] samples = sampler.sample_k(10)
 ```
 
 Note that the latter requires having to include the `numpy` headers in the extension definition of your `setup.py`:
