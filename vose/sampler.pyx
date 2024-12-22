@@ -8,7 +8,6 @@ import numpy as np
 
 from libcpp.deque cimport deque
 cimport cython
-cimport numpy as np
 
 from random_wrapper cimport minstd_rand, random_device
 
@@ -44,7 +43,7 @@ cdef class Sampler:
             weights = weights.copy()
 
         cdef int n = weights.size
-        cdef np.int [:] alias = np.zeros(n, dtype=int)
+        cdef int [:] alias = np.zeros(n, dtype=np.intc)
         cdef np.float_t [:] proba = np.zeros(n, dtype=float)
 
         # Compute the average probability and cache it for later use.
@@ -136,8 +135,8 @@ cdef class Sampler:
             return col
         return self.alias[col]
 
-    cdef np.int [:] sample_k(self, int k):
-        cdef np.int [:] samples = np.zeros(k, dtype=int)
+    cdef int [:] sample_k(self, int k):
+        cdef int [:] samples = np.zeros(k, dtype=np.intc)
         cdef int i
         for i in range(k):
             samples[i] = self.sample_1()
